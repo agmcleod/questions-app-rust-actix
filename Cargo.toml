@@ -1,3 +1,5 @@
 [workspace]
 
-members = ["db", "server"]
+members = ["db", "errors", "server"]
+
+# comme

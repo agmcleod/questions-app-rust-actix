@@ -753,6 +753,7 @@ dependencies = [
  "chrono",
  "diesel",
  "env_logger 0.5.13",
+ "errors",
  "log",
  "r2d2",
  "r2d2_postgres",
@@ -883,6 +884,20 @@ dependencies = [
  "log",
  "regex 1.4.5",
  "termcolor",
+]
+
+[[package]]
+name = "errors"
+version = "0.1.0"
+dependencies = [
+ "actix-web",
+ "derive_more",
+ "diesel",
+ "env_logger 0.5.13",
+ "log",
+ "r2d2",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]
@@ -2021,6 +2036,7 @@ dependencies = [
  "diesel",
  "dotenv",
  "env_logger 0.8.3",
+ "errors",
  "futures",
  "futures-util",
  "log",

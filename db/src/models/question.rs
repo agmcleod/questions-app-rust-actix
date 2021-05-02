@@ -2,7 +2,7 @@ use chrono::{DateTime, Utc};
 use diesel::{PgConnection, Insertable, QueryDsl, Queryable, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
-// use errors::Error;
+use errors::Error;
 
 use crate::schema::questions;
 
@@ -27,11 +27,13 @@ pub struct NewQuestion {
 }
 
 impl Question {
-    pub fn get_all(conn: &PgConnection) -> Result<Vec<Question>, diesel::result::Error> {
+    pub fn get_all(conn: &PgConnection) -> Result<Vec<Question>, Error> {
         use crate::schema::questions::dsl::{body, questions};
 
         let all_questions = questions.order(body).load::<Question>(conn)?;
 
         Ok(all_questions)
     }
+
+    pub fn create(conn: &PgConnection, body: &String) {}
 }
