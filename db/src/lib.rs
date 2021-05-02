@@ -8,7 +8,6 @@ extern crate diesel;
 
 use diesel::pg::PgConnection;
 use diesel::r2d2::{ConnectionManager, Pool, PooledConnection};
-use r2d2::Error;
 
 pub type PgPool = Pool<ConnectionManager<PgConnection>>;
 

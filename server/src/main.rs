@@ -5,11 +5,13 @@ use std::env;
 
 use actix_cors::Cors;
 use actix_rt;
-use actix_web::{http, middleware::Logger, web, App, HttpResponse, HttpServer};
+use actix_web::{http, middleware::Logger, App, HttpServer};
 use dotenv::dotenv;
 use env_logger;
 
 mod routes;
+#[cfg(test)]
+mod tests;
 
 #[actix_rt::main]
 async fn main() -> std::io::Result<()> {

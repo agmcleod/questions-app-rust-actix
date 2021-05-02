@@ -1,0 +1,12 @@
+version: "3"
+
+services:
+  database_test:
+    image: "postgres:10.5"
+    ports:
+      - "5433:5432"
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: ""
+      POSTGRES_DB: my_database_test
+      POSTGRES_HOST_AUTH_METHOD: trust

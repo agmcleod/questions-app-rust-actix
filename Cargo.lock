@@ -2018,11 +2018,14 @@ dependencies = [
  "actix-web",
  "actix-web-actors",
  "db",
+ "diesel",
  "dotenv",
  "env_logger 0.8.3",
  "futures",
  "futures-util",
  "log",
+ "serde",
+ "serde_json",
 ]
 
 [[package]]

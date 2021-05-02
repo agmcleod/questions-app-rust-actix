@@ -1,5 +1,5 @@
 use chrono::{DateTime, Utc};
-use diesel::{PgConnection, QueryDsl, Queryable, RunQueryDsl};
+use diesel::{PgConnection, Insertable, QueryDsl, Queryable, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
 // use errors::Error;
@@ -17,6 +17,12 @@ pub struct Question {
 #[derive(Debug, Deserialize, Queryable, Serialize, PartialEq)]
 pub struct QuestionDetails {
     pub id: i32,
+    pub body: String,
+}
+
+#[derive(Debug, Insertable)]
+#[table_name = "questions"]
+pub struct NewQuestion {
     pub body: String,
 }
 
