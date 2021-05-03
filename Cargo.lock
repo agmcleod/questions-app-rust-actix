@@ -786,7 +786,7 @@ dependencies = [
  "diesel_derives",
  "pq-sys",
  "r2d2",
- "uuid",
+ "uuid 0.6.5",
 ]
 
 [[package]]
@@ -2042,6 +2042,7 @@ dependencies = [
  "log",
  "serde",
  "serde_json",
+ "uuid 0.5.1",
 ]
 
 [[package]]
@@ -2496,6 +2497,16 @@ name = "utf8-ranges"
 version = "1.0.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b4ae116fef2b7fea257ed6440d3cfcff7f190865f170cdad00bb6465bf18ecba"
+
+[[package]]
+name = "uuid"
+version = "0.5.1"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "bcc7e3b898aa6f6c08e5295b6c89258d1331e9ac578cc992fb818759951bdc22"
+dependencies = [
+ "rand 0.3.23",
+ "serde",
+]
 
 [[package]]
 name = "uuid"

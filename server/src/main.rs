@@ -3,6 +3,7 @@ extern crate log;
 
 use std::env;
 
+use actix::Actor;
 use actix_cors::Cors;
 use actix_rt;
 use actix_web::{http, middleware::Logger, App, HttpServer};
@@ -10,6 +11,7 @@ use dotenv::dotenv;
 use env_logger;
 
 mod routes;
+mod websocket;
 #[cfg(test)]
 mod tests;
 
@@ -20,7 +22,7 @@ async fn main() -> std::io::Result<()> {
 
     let pool = db::new_pool();
 
-    // let server = websocket::Server::new(pool.clone()).start();
+    let server = websocket::Server::new().start();
 
     HttpServer::new(move || {
         let cors = Cors::default()
@@ -38,6 +40,7 @@ async fn main() -> std::io::Result<()> {
             .wrap(Logger::default())
             .wrap(Logger::new("%a %{User-Agent}i"))
             .data(pool.clone())
+            .data(server.clone())
             .configure(routes::routes)
     })
     .bind("0.0.0.0:8080")?
