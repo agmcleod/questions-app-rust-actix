@@ -1,12 +1,12 @@
 use chrono::{DateTime, Utc};
-use diesel::{PgConnection, Insertable, QueryDsl, Queryable, RunQueryDsl};
+use diesel::{Insertable, PgConnection, QueryDsl, Queryable, RunQueryDsl};
 use serde::{Deserialize, Serialize};
 
 use errors::Error;
 
 use crate::schema::questions;
 
-#[derive(Debug, Identifiable, Serialize, Deserialize, Queryable)]
+#[derive(Clone, Debug, Identifiable, Serialize, Deserialize, Queryable)]
 pub struct Question {
     pub id: i32,
     pub body: String,
@@ -36,11 +36,11 @@ impl Question {
     }
 
     pub fn create(conn: &PgConnection, body: &String) -> Result<Question, Error> {
-        use crate::schema::questions::dsl::{questions};
+        use crate::schema::questions::dsl::questions;
 
-        let question = diesel::insert_into(questions).values(NewQuestion {
-            body: body.clone(),
-        }).get_result::<Question>(conn)?;
+        let question = diesel::insert_into(questions)
+            .values(NewQuestion { body: body.clone() })
+            .get_result::<Question>(conn)?;
 
         Ok(question)
     }
