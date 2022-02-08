@@ -24,17 +24,22 @@ pub enum Error {
 impl ResponseError for Error {
     fn error_response(&self) -> HttpResponse {
         match self {
-            Error::BadRequest(error) => {
-                HttpResponse::BadRequest().json::<ErrorResponse>(error.into())
+            Error::BadRequest(message) => {
+                let error: ErrorResponse = message.into();
+                HttpResponse::BadRequest().json(error)
             }
             Error::NotFound(message) => {
-                HttpResponse::NotFound().json::<ErrorResponse>(message.into())
+                let error: ErrorResponse = message.into();
+                HttpResponse::NotFound().json(error)
             }
-            Error::Forbidden => HttpResponse::Forbidden().json::<ErrorResponse>("Forbidden".into()),
+            Error::Forbidden => {
+                let error: ErrorResponse = "Forbidden".into();
+                HttpResponse::Forbidden().json(error)
+            }
             _ => {
                 error!("Internal server error: {:?}", self);
-                HttpResponse::InternalServerError()
-                    .json::<ErrorResponse>("Internal Server Error".into())
+                let error: ErrorResponse = "Internal Server Error".into();
+                HttpResponse::InternalServerError().json(error)
             }
         }
     }
@@ -93,12 +98,10 @@ impl From<PoolError> for Error {
     }
 }
 
-impl From<BlockingError<Error>> for Error {
-    fn from(error: BlockingError<Error>) -> Error {
-        match error {
-            BlockingError::Error(error) => error,
-            BlockingError::Canceled => Error::BlockingError("Thread blocking error".into()),
-        }
+impl From<BlockingError> for Error {
+    fn from(error: BlockingError) -> Error {
+        error!("Thread blocking error {:?}", error);
+        Error::BlockingError("Thread blocking error".into())
     }
 }
 

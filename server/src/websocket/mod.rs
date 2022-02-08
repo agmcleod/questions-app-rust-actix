@@ -5,7 +5,7 @@ use uuid::Uuid;
 use actix::{
     fut,
     prelude::{Actor, Addr, Handler, StreamHandler},
-    ActorContext, ActorFuture, AsyncContext, ContextFutureSpawner, WrapFuture,
+    ActorContext, ActorFutureExt, AsyncContext, ContextFutureSpawner, WrapFuture,
 };
 use actix_web::{web, HttpRequest, HttpResponse};
 use actix_web_actors::ws;
@@ -23,7 +23,6 @@ pub struct WebSocketSession {
     hb: Instant,
     server_addr: Addr<Server>,
 }
-
 
 impl WebSocketSession {
     fn new(server_addr: Addr<Server>) -> Self {

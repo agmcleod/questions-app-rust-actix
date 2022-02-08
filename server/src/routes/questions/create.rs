@@ -27,7 +27,8 @@ pub async fn create(
 
     let connection = get_conn(&pool)?;
 
-    let question = block(move || Question::create(&connection, &params.body)).await?;
+    let res = block(move || Question::create(&connection, &params.body)).await?;
+    let question = res?;
 
     if let Ok(question) = to_value(question.clone()) {
         let msg = MessageToClient::new("newquestion", question);
@@ -39,7 +40,7 @@ pub async fn create(
 
 #[cfg(test)]
 mod tests {
-    use actix_web::client::Client;
+    use awc::Client;
     use diesel::{self, RunQueryDsl};
     use futures::StreamExt;
     use serde_json;

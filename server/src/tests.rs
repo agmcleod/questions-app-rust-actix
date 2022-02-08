@@ -1,7 +1,8 @@
 use actix::Actor;
 use actix_http::Request;
 use actix_service::Service;
-use actix_web::{body::Body, dev::ServiceResponse, error::Error, test, App};
+use actix_test;
+use actix_web::{body::BoxBody, dev::ServiceResponse, error::Error, test, web, App};
 use actix_web_actors::ws;
 use serde::{de::DeserializeOwned, Serialize};
 
@@ -9,21 +10,21 @@ use crate::routes::routes;
 use crate::websocket::{MessageToClient, Server};
 
 pub async fn get_service(
-) -> impl Service<Request = Request, Response = ServiceResponse<Body>, Error = Error> {
+) -> impl Service<Request, Response = ServiceResponse<BoxBody>, Error = Error> {
     test::init_service(
         App::new()
-            .data(db::new_pool())
-            .data(Server::new().start())
+            .app_data(web::Data::new(db::new_pool()))
+            .app_data(web::Data::new(Server::new().start()))
             .configure(routes),
     )
     .await
 }
 
-pub fn get_test_server() -> test::TestServer {
-    test::start(|| {
+pub fn get_test_server() -> actix_test::TestServer {
+    actix_test::start(|| {
         App::new()
-            .data(db::new_pool())
-            .data(Server::new().start())
+            .app_data(web::Data::new(db::new_pool()))
+            .app_data(web::Data::new(Server::new().start()))
             .configure(routes)
     })
 }
