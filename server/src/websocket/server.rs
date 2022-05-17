@@ -39,7 +39,7 @@ impl Server {
         match data {
             Ok(data) => {
                 for recipient in self.sessions.values() {
-                    match recipient.do_send(Message(data.clone())) {
+                    match recipient.try_send(Message(data.clone())) {
                         Err(err) => {
                             error!("Error sending client message: {:?}", err);
                         }
